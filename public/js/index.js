@@ -47,9 +47,6 @@ upload = () => {
         complete: () => {
             console.log("complete")
         },
-        error: () => {
-            console.log(data)
-        }
     })
 }
 
