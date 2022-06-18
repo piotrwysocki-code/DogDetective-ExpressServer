@@ -34,7 +34,7 @@ upload = () => {
 
     $.ajax({
         type : 'POST',
-        url : 'http://99.79.132.110/upload',
+        url : '/upload',
         data: formData,
         contentType: false,
         processData: false,
