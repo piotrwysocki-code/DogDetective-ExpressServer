@@ -13,7 +13,7 @@ let FormData = require('form-data')
 
 let storage = multer.diskStorage({
     destination(req, file, cb) {
-      cb(null, 'C:/Users/Hugh Mungus/Documents/VSCode/DogDetectiveFrontend/uploads')
+      cb(null, 'uploads')
     },
     filename(req, file, cb) {
       cb(null, `${file.fieldname}-${Date.now()}.jpg`)
@@ -40,7 +40,7 @@ app.post('/upload', upload, async (req, res) =>{
         console.error(err);
     }
 
-    let response = axios.post('http://127.0.0.1:8000/api/classify', form, {
+    let response = axios.post('http://3.98.28.136/api/classify', form, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -54,6 +54,16 @@ app.post('/upload', upload, async (req, res) =>{
                 console.log('deleted ' + req.file.path);
             }
         });
+    }).catch((error) => {
+        console.log(error.message)
+        fs.unlink(req.file.path, (e) => {
+            if (e) {
+                console.log(e);
+            } else {
+                console.log('deleted ' + req.file.path);
+            }
+        });
+        res.send({"message" : 'Server error'})
     })
 
 })
