@@ -43,18 +43,20 @@
     <h4 class="display-4">Dog Detective</h4>
     <form>
       <div class="form-group d-flex flex-column align-items-center">
-        <img src="img/blank-dog.jpg" id="selected-img" />
+        <img class="img img-fluid" src="img/blank-dog.jpg" id="selected-img" />
         <input type="file" id="camera-picker" capture="user" accept="image/*" />
         <input type="file" id="file-picker" />
       </div>
     </form>
-    <div class="d-flex flex-row justify-content-center align-items-center">
+    <div
+      class="d-flex flex-row justify-content-center align-items-center img-file-btns"
+    >
       <button onClick="pickPhoto()" class="btn btn-primary">Choose File</button>
       <button onClick="takePic()" class="btn btn-info">Take Picture</button>
     </div>
     <br />
     <button
-      onClick="upload()"
+      onClick="upload(file)"
       class="btn btn-lg btn-success btn-block upload"
       disabled
     >

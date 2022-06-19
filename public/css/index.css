@@ -33,3 +33,11 @@ font-size: 1.1em !important;
     width: fit-content;
 
 }
+
+.img-file-btns{
+    gap: 10px;
+}
+
+.img{
+    object-fit: contain;
+}

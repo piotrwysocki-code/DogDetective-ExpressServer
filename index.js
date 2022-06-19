@@ -10,7 +10,6 @@ let { promisify } = require('util')
 let unlinkAsync = promisify(fs.unlink)
 let FormData = require('form-data')
 
-
 let storage = multer.diskStorage({
     destination(req, file, cb) {
       cb(null, 'uploads')
@@ -35,6 +34,7 @@ app.post('/upload', upload, async (req, res) =>{
 
     try {
         data = fs.readFileSync(req.file.path);
+        
         form.append('file', data, req.file.filename)
     } catch (err) {
         console.error(err);
@@ -46,23 +46,26 @@ app.post('/upload', upload, async (req, res) =>{
         }
     }).then((response) => {
         console.log(response.data)
-        res.send(response.data)
-        fs.unlink(req.file.path, (e) => {
+        unlinkAsync(req.file.path, (e) => {
             if (e) {
                 console.log(e);
             } else {
                 console.log('deleted ' + req.file.path);
             }
-        });
+        })
+
+        res.send(response.data)
+
     }).catch((error) => {
         console.log(error.message)
-        fs.unlink(req.file.path, (e) => {
+        unlinkAsync(req.file.path, (e) => {
             if (e) {
                 console.log(e);
             } else {
                 console.log('deleted ' + req.file.path);
             }
-        });
+        })
+
         res.send({"message" : 'Server error'})
     })
 
