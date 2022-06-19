@@ -1,6 +1,8 @@
+let file;
+
 $(() => {
     $("#file-picker").on('change', () => {
-        let file = $("#file-picker").prop('files')[0]
+        file = $("#file-picker").prop('files')[0]
         
         if (file) {
             $(".upload").attr('disabled', false)
@@ -10,7 +12,7 @@ $(() => {
     })
 
     $("#camera-picker").on('change', () => {
-        let file = $("#file-picker").prop('files')[0]
+        file = $("#camera-picker").prop('files')[0]
         
         if (file) {
             $(".upload").attr('disabled', false)
@@ -28,9 +30,9 @@ pickPhoto = () => {
     $("#file-picker").trigger('click')
 }
 
-upload = () => {
+upload = (file) => {
     let formData = new FormData(); 
-    formData.append("file", $("#file-picker").prop('files')[0]);
+    formData.append("file", file);
 
     $.ajax({
         type : 'POST',
