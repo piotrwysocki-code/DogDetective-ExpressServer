@@ -42,10 +42,16 @@
   <div class="container container-fluid text-center align-items-center">
     <h4 class="display-4">Dog Detective</h4>
     <form>
+      <input type="file" id="camera-picker" capture="user" accept="image/*" />
+      <input type="file" id="file-picker" />
       <div class="form-group d-flex flex-column align-items-center">
+        <div id="overlay">
+          <div id="info">
+            <div class="loader"></div>
+
+          </div>
+        </div>
         <img class="img img-fluid" src="img/blank-dog.jpg" id="selected-img" />
-        <input type="file" id="camera-picker" capture="user" accept="image/*" />
-        <input type="file" id="file-picker" />
       </div>
     </form>
     <div
@@ -63,13 +69,6 @@
       Upload
     </button>
     <br />
-  </div>
-
-  <div
-    class="container container-fluid d-flex justify-content-center align-items-center flex-column"
-  >
-    <h4 class="text-center">Result:</h4>
-    <div id="result"></div>
   </div>
 
   <script

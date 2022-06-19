@@ -9,6 +9,7 @@ let multer =  require('multer');
 let { promisify } = require('util')
 let unlinkAsync = promisify(fs.unlink)
 let FormData = require('form-data')
+let sharp = require('sharp')
 
 let storage = multer.diskStorage({
     destination(req, file, cb) {
@@ -30,45 +31,58 @@ app.get('/', (req, res)=> {
 
 app.post('/upload', upload, async (req, res) =>{
     let form = new FormData()
-    let data;
+    let filepath = req.file.path
+    let name = req.file.filename
+    let newPath = `uploads/sm-${name}`
+
+    console.log(filepath)
+
+    await sharp(filepath).resize({ height: 331, width: 331 }).toFile(newPath)
+    .then((info) => {
+        console.log(info)
+        unlinkAsync(filepath, (e) => {
+            if (e) {
+                console.log(e);
+            } else {
+                console.log(`deleted ${filepath}`);
+            }
+        })
+    })
+    .catch((err) => {
+        console.log("Error occured");
+    })
 
     try {
-        data = fs.readFileSync(req.file.path);
+        let data = fs.readFileSync(path.resolve(__dirname, newPath));
         
-        form.append('file', data, req.file.filename)
+        form.append('file', data, name)
+
     } catch (err) {
         console.error(err);
     }
 
-    let response = axios.post('http://3.99.214.11/api/classify', form, {
+    let response = axios.post('http://3.96.75.82/api/classify', form, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
     }).then((response) => {
         console.log(response.data)
-        unlinkAsync(req.file.path, (e) => {
-            if (e) {
-                console.log(e);
-            } else {
-                console.log('deleted ' + req.file.path);
-            }
-        })
-
         res.send(response.data)
 
     }).catch((error) => {
         console.log(error.message)
-        unlinkAsync(req.file.path, (e) => {
+        res.send({"message" : 'Server error'})
+
+    }).finally(()=>{
+        unlinkAsync(newPath, (e) => {
             if (e) {
                 console.log(e);
             } else {
-                console.log('deleted ' + req.file.path);
+                console.log(`deleted ${newPath}`);
             }
         })
 
-        res.send({"message" : 'Server error'})
     })
-
 })
 
 app.listen(PORT, ()=>{

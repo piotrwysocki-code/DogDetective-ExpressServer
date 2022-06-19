@@ -20,7 +20,7 @@ $(() => {
             console.log(URL.createObjectURL(file))
         }
     })
-});
+})
 
 takePic = () => {
     $("#camera-picker").trigger('click')
@@ -31,8 +31,8 @@ pickPhoto = () => {
 }
 
 upload = (file) => {
-    let formData = new FormData(); 
-    formData.append("file", file);
+    let formData = new FormData()
+    formData.append("file", file)
 
     $.ajax({
         type : 'POST',
@@ -40,16 +40,33 @@ upload = (file) => {
         data: formData,
         contentType: false,
         processData: false,
+        beforeSend: () => {
+            on()
+        },
         success: (data) => {
-            $('#result').html('')
+            $('#info').html('')
+            $('.loader').hide('fast')
+            $("#info").append(`<h3>Result</h3>`)
             for(i = 0; i < 3; i++){
-                $("#result").append(`Breed: ${JSON.parse(data)[i].Breed}, Confidence: ${JSON.parse(data)[i].Confidence} / 1.0 </br>`)
+                $("#info").append(`Breed: ${JSON.parse(data)[i].Breed} <br> Confidence: ${JSON.parse(data)[i].Confidence} / 1.0 <hr>`)
             }
+
+            $("#info").append(`<button class='btn btn-warning' onClick='off()'>Done</button>`)
+
+            $('#result').show('fast')
         },
         complete: () => {
             console.log("complete")
         },
     })
+}
+
+on = () => {
+    $("#overlay").show('slow')
+}
+
+off = () => {
+    $("#overlay").hide('slow')
 }
 
 
