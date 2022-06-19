@@ -44,16 +44,27 @@ upload = (file) => {
             on()
         },
         success: (data) => {
-            $('#info').html('')
-            $('.loader').hide('fast')
-            $("#info").append(`<h3>Result</h3>`)
-            for(i = 0; i < 3; i++){
-                $("#info").append(`Breed: ${JSON.parse(data)[i].Breed} <br> Confidence: ${JSON.parse(data)[i].Confidence} / 1.0 <hr>`)
-            }
+            $('.loader').fadeOut('fast')
+            $('#info').fadeOut('fast')
 
-            $("#info").append(`<button class='btn btn-warning' onClick='off()'>Done</button>`)
-
-            $('#result').show('fast')
+            setTimeout(() => {
+                $("#info").append(`<h3>Result</h3>`)
+                for(i = 0; i < 3; i++){
+                    $("#info").append(`
+                        <hr>
+                        <h4>${JSON.parse(data)[i].Breed}</h4>
+                        <div class="progress">
+                            <br>
+                            <div class="progress-bar bg-success" style="width:${(JSON.parse(data)[i].Confidence * 100).toFixed(2)}%">
+                                ${(JSON.parse(data)[i].Confidence * 100).toFixed(2)}
+                            </div>
+                        </div>
+                    `)
+                }
+    
+                $("#info").append(`<hr><button class='btn btn-warning' onClick='off()'>Done</button>`)
+                $('#info').fadeIn('slow')
+            }, 250)
         },
         complete: () => {
             console.log("complete")
@@ -62,11 +73,27 @@ upload = (file) => {
 }
 
 on = () => {
-    $("#overlay").show('slow')
+    $("#overlay").fadeIn('slow')
+
+    setTimeout(() => {
+        $("#info").fadeIn('slow')
+    }, 100)
+
+    setTimeout(() => {
+        $('.loader').fadeIn('slow')
+    }, 200)
 }
 
 off = () => {
-    $("#overlay").hide('slow')
+    $('.loader').hide('fast')
+
+    $('#info').fadeOut('slow')
+
+    setTimeout(() => {
+        $("#overlay").fadeOut('slow')
+    }, 150)
+
+    $('#info').html('<div class="loader"></div>')
 }
 
 

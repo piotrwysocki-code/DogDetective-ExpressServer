@@ -41,19 +41,16 @@
   </nav>
   <div class="container container-fluid text-center align-items-center">
     <h4 class="display-4">Dog Detective</h4>
-    <form>
-      <input type="file" id="camera-picker" capture="user" accept="image/*" />
-      <input type="file" id="file-picker" />
-      <div class="form-group d-flex flex-column align-items-center">
-        <div id="overlay">
-          <div id="info">
-            <div class="loader"></div>
-
-          </div>
+    <input type="file" id="camera-picker" capture="user" accept="image/*" />
+    <input type="file" id="file-picker" />
+    <div class="form-group d-flex flex-column align-items-center">
+      <div id="overlay">
+        <div id="info">
+          <div class="loader"></div>
         </div>
-        <img class="img img-fluid" src="img/blank-dog.jpg" id="selected-img" />
       </div>
-    </form>
+      <img class="img img-fluid" src="img/blank-dog.jpg" id="selected-img" />
+    </div>
     <div
       class="d-flex flex-row justify-content-center align-items-center img-file-btns"
     >
@@ -66,7 +63,7 @@
       class="btn btn-lg btn-success btn-block upload"
       disabled
     >
-      Upload
+      Investigate
     </button>
     <br />
   </div>

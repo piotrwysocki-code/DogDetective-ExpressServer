@@ -49,6 +49,7 @@ font-size: 1.1em !important;
     width: 120px;
     height: 120px;
     animation: spin 2s linear infinite;
+    display: none;
 }
 
 @keyframes spin {
@@ -78,11 +79,17 @@ font-size: 1.1em !important;
     color: white;
     transform: translate(-50%,-50%);
     -ms-transform: translate(-50%,-50%);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.8);
     border-radius: 20px 20px 20px 20px;
     padding: 20px;
 }
 
 hr{
     background-color: white;
+}
+
+.progress {
+    height: 20px;
+    font-size: 12pt;
+    min-width: 250px;
 }
