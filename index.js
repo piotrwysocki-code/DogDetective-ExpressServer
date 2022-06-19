@@ -40,7 +40,7 @@ app.post('/upload', upload, async (req, res) =>{
         console.error(err);
     }
 
-    let response = axios.post('http://3.98.28.136/api/classify', form, {
+    let response = axios.post('http://3.99.214.11/api/classify', form, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
