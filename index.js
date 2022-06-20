@@ -13,7 +13,7 @@ let sharp = require('sharp')
 
 let storage = multer.diskStorage({
     destination(req, file, cb) {
-      cb(null, 'uploads')
+      cb(null, path.join(__dirname, 'uploads'))
     },
     filename(req, file, cb) {
       cb(null, `${file.fieldname}-${Date.now()}.jpg`)
@@ -33,9 +33,7 @@ app.post('/upload', upload, async (req, res) =>{
     let form = new FormData()
     let filepath = req.file.path
     let name = req.file.filename
-    let newPath = `uploads/sm-${name}`
-
-    console.log(filepath)
+    let newPath = path.join(__dirname, `uploads/sm-${name}`)
 
     await sharp(filepath).resize({ height: 331, width: 331 }).toFile(newPath)
     .then((info) => {
