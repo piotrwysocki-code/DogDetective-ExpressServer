@@ -1,26 +1,52 @@
 let file;
+let breeds = {}
 
 $(() => {
-    $("#file-picker").on('change', () => {
-        file = $("#file-picker").prop('files')[0]
-        
-        if (file) {
-            $(".upload").attr('disabled', false)
-            $("#selected-img").attr("src", URL.createObjectURL(file))
-            console.log(URL.createObjectURL(file))
-        }
-    })
-
-    $("#camera-picker").on('change', () => {
-        file = $("#camera-picker").prop('files')[0]
-        
-        if (file) {
-            $(".upload").attr('disabled', false)
-            $("#selected-img").attr("src", URL.createObjectURL(file))
-            console.log(URL.createObjectURL(file))
+    $.ajax({
+        type : 'GET',
+        url : '/getBreeds',
+        success: (data) => {
+            breeds = data.breeds;
+            console.log(breeds);
+            Object.keys(breeds[0]).map((item, index)=>{
+                $('.breed-list').append(`
+                    <li class="list-group-item">
+                        <h1 class="display-5 fs-4">${breeds[0][item]}</h1>
+                    </li>
+                `);
+            })
+           
+        },
+        error:() => {   
+            console.log('error');
+        },
+        complete: () => {
         }
     })
 })
+
+$("#file-picker").on('change', () => {
+    fileList = $("#file-picker").prop('files')
+    getImage(fileList)
+})
+
+$("#camera-picker").on('change', () => {
+    fileList = $("#camera-picker").prop('files')
+    getImage(fileList)
+})
+
+getImage = (fileList) => {    
+    tempFile = fileList[0]
+    if (tempFile) {
+        file = tempFile;
+        $(".upload").attr('disabled', false)
+        $("#selected-img").attr("src", URL.createObjectURL(file))
+        console.log(URL.createObjectURL(file))
+    }
+    else{
+        console.log("No File Selected");
+    }
+}
 
 takePic = () => {
     $("#camera-picker").trigger('click')
@@ -48,14 +74,16 @@ upload = (file) => {
             $('#info').fadeOut('fast')
 
             setTimeout(() => {
-                $("#info").append(`<h3>Result</h3>`)
+                $("#info").append(`
+                    <h3>Result</h3>
+                    <img src="${URL.createObjectURL(file)}" id="resultImg"/>
+                `)
                 for(i = 0; i < 3; i++){
                     $("#info").append(`
-                        <hr>
                         <h4>${JSON.parse(data)[i].Breed}</h4>
                         <div class="progress">
                             <br>
-                            <div class="progress-bar bg-success" style="width:${(JSON.parse(data)[i].Confidence * 100).toFixed(2)}%">
+                            <div class="progress-bar bg-info" style="width:${(JSON.parse(data)[i].Confidence * 100).toFixed(2)}%">
                                 ${(JSON.parse(data)[i].Confidence * 100).toFixed(2)}
                             </div>
                         </div>
@@ -73,8 +101,6 @@ upload = (file) => {
 }
 
 on = () => {
-    $("#overlay").fadeIn('slow')
-
     setTimeout(() => {
         $("#info").fadeIn('slow')
     }, 100)
@@ -90,7 +116,7 @@ off = () => {
     $('#info').fadeOut('slow')
 
     setTimeout(() => {
-        $("#overlay").fadeOut('slow')
+        $("#overlay").css('display', 'none');
     }, 150)
 
     $('#info').html('<div class="loader"></div>')

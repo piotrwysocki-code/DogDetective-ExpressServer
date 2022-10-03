@@ -25,9 +25,30 @@ let upload = multer({ storage: storage }).single('file')
 app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res)=> {
-    res.sendFile('index.html');
+app.get('/home', (req, res)=> {
+    res.sendFile(__dirname + '/public/index.html');
 });
+
+app.get('/breeds', (req, res)=> {
+    res.sendFile(__dirname + '/public/breeds.html');
+});
+
+app.get('/getBreeds', async (req, res) =>{
+    try{
+        let data = await axios.get("http://99.79.108.211/breeds").then((response)=>{
+            console.log(response.data);
+            res.json({'breeds': [response.data]});
+        }).catch((e)=>{
+            console.log(e);
+            res.send(e);
+        }).finally(()=>{
+            console.log('getBreeds complete');
+        })
+    }catch(e){
+        console.log(e);
+        res.json({'Status':'Error'});
+    }
+})
 
 app.post('/upload', upload, async (req, res) =>{
     let form = new FormData()
@@ -42,7 +63,7 @@ app.post('/upload', upload, async (req, res) =>{
             if (e) {
                 console.log(e);
             } else {
-                console.log(`deleted ${filepath}`);
+                console.log(`1 deleted ${filepath}`);
             }
         })
     })
@@ -59,7 +80,7 @@ app.post('/upload', upload, async (req, res) =>{
         console.error(err);
     }
 
-    let response = axios.post('http://3.96.75.82/api/classify', form, {
+    let response = axios.post('http://99.79.108.211/api/classify', form, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
@@ -76,10 +97,9 @@ app.post('/upload', upload, async (req, res) =>{
             if (e) {
                 console.log(e);
             } else {
-                console.log(`deleted ${newPath}`);
+                console.log(`2 deleted ${newPath}`);
             }
         })
-
     })
 })
 
