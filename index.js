@@ -22,6 +22,8 @@ let storage = multer.diskStorage({
 
 let upload = multer({ storage: storage }).single('file')
 
+let breeds = -1;
+
 app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -34,19 +36,24 @@ app.get('/breeds', (req, res)=> {
 });
 
 app.get('/getBreeds', async (req, res) =>{
-    try{
-        let data = await axios.get("http://99.79.108.211/breeds").then((response)=>{
-            console.log(response.data);
-            res.json({'breeds': [response.data]});
-        }).catch((e)=>{
+    if(breeds === -1){
+        try{
+            let data = await axios.get("http://99.79.108.211/breeds").then((response)=>{
+                console.log(response.data);
+                breeds = {'breeds': [response.data]}
+                res.json(breeds);
+            }).catch((e)=>{
+                console.log(e);
+                res.send(e);
+            }).finally(()=>{
+                console.log('getBreeds complete');
+            })
+        }catch(e){
             console.log(e);
-            res.send(e);
-        }).finally(()=>{
-            console.log('getBreeds complete');
-        })
-    }catch(e){
-        console.log(e);
-        res.json({'Status':'Error'});
+            res.json({'Status':'Error'});
+        }
+    }else{
+        res.json(breeds);
     }
 })
 
@@ -55,6 +62,8 @@ app.post('/upload', upload, async (req, res) =>{
     let filepath = req.file.path
     let name = req.file.filename
     let newPath = path.join(__dirname, `uploads/sm-${name}`)
+
+    console.log(req.file);
 
     await sharp(filepath).resize({ height: 331, width: 331 }).toFile(newPath)
     .then((info) => {
@@ -75,6 +84,7 @@ app.post('/upload', upload, async (req, res) =>{
         let data = fs.readFileSync(path.resolve(__dirname, newPath));
         
         form.append('file', data, name)
+        console.log(form);
 
     } catch (err) {
         console.error(err);

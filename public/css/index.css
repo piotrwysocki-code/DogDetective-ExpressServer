@@ -1,4 +1,3 @@
-
 html{
     scroll-padding-top: 100px;
 }
@@ -13,10 +12,22 @@ body{
 }
 
 .breeds-container{
-    height: 95vh;
-    padding: 2rem;
-    border-radius: 25px 25px 25px 25px;
-    background-color: rgba(200, 200, 200, 0.3);
+    height: 85vh;
+    border-radius: 20px;
+    padding: 3rem;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur( 6px );
+    -webkit-backdrop-filter: blur( 6px );
+}
+
+
+.main{
+    background-image: url('../img/bg.png');
+    width: 100vw;
+    min-height: 100vh;
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; 
 }
 
 .breed-list-container{
@@ -26,20 +37,6 @@ body{
 
 .breed-search{
     width: fit-content;
-}
-
-.investigate-container{
-    padding: 3rem;
-    background-color: rgba(200, 200, 200, 0.3);
-    width: 100vw;
-    height: 100vh;
-}
-
-#selected-img{
-    margin: 30px;
-    max-height: 400px;
-    object-fit: cover;
-    border-radius: 25px;
 }
 
 #camera-picker, #file-picker{
@@ -71,7 +68,7 @@ font-size: 1.1em !important;
 }
 
 .img{
-    object-fit: contain;
+    object-fit: cover;
 }
 
 hr{
@@ -79,36 +76,50 @@ hr{
 }
 
 .investigate{
-    background-color: rgb(255, 255, 255);
     border-radius: 20px;
-    padding: 2rem;
-    width: fit-content;
-    min-width: 450px;
+    background-color: rgba(255, 255, 255, 0.5);
+    backdrop-filter: blur( 6px );
+    -webkit-backdrop-filter: blur( 6px );
+    padding:2rem;
+}
 
+.investigate-box{
+    background-color: rgba(255, 255, 250, 0.7);
+    border-radius: 20px 20px 20px 20px;
+    min-width: 50%;
+    min-height: 350px;
+}
+
+.investigate-container-img{
+    max-height: 300px;
+}
+
+#magnify-initial{
+}
+
+img{
 }
 
 .progress {
     height: 20px;
     font-size: 12pt;
     min-width: 250px;
+    background-color:rgba(180, 180, 180, 0.9);
+
 }
 
 #info{
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    width: 100%;
+    height: 100%;
     font-size: 20px;
-    color: white;
-    transform: translate(-50%,-50%);
-    -ms-transform: translate(-50%,-50%);
-    background-color: rgba(0, 0, 0, 0.8);
-    border-radius: 20px 20px 20px 20px;
-    padding: 20px;
     display: none;
-    min-width: 450px;
 }
 
-#resultImg{
-    max-height: 400px;
-    max-width: 400px;
+@media (max-width: 991.98px) { 
+    .investigate-box{
+
+        width: 100%;
+
+    }
 }
+

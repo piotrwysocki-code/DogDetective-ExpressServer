@@ -37,22 +37,26 @@
     </div>
   </nav>
   <div
-    class="container text-center d-flex flex-column align-items-center breeds-container mt-5"
-    id="breeds"
+    class="d-flex flex-column justify-content-center align-items-center main"
   >
-    <h1 class="display-2">Breeds</h1>
-    <div class="input-group breed-search">
-      <input
-        type="search"
-        class="form-control rounded"
-        placeholder="Search"
-        aria-label="Search"
-        aria-describedby="search-addon"
-      />
-      <button type="button" class="btn btn-outline-primary">search</button>
-    </div>
-    <div class="container-fluid breed-list-container">
-      <ul class="breed-list list-group p-2"></ul>
+    <div
+      class="container text-center d-flex flex-column align-items-center breeds-container"
+      id="breeds"
+    >
+      <h1 class="display-2">Breeds</h1>
+      <div class="input-group breed-search">
+        <input
+          type="text"
+          class="form-control rounded"
+          placeholder="Search"
+          aria-label="Search"
+          aria-describedby="search-addon"
+          id="searchInput"
+        />
+      </div>
+      <div class="container-fluid breed-list-container">
+        <ul class="breed-list list-group p-2"></ul>
+      </div>
     </div>
   </div>
   <script
@@ -71,5 +75,5 @@
     crossorigin="anonymous"
   ></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script src="js/index.js"></script>
+  <script src="js/breeds.js"></script>
 </body>

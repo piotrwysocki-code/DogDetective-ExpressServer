@@ -37,47 +37,86 @@
     </div>
   </nav>
   <div
-    class="container-fluid d-flex flex-column text-center align-items-center investigate-container"
+    class="d-flex flex-column justify-content-center align-items-center main"
     id="home"
   >
-    <h1 class="display-1 mb-5">Dog Detective</h1>
-    <div class="investigate justify-content-center align-items-center">
-      <div id="overlay">
-        <div id="info">
+    <input type="file" id="camera-picker" capture="user" accept="image/*" />
+    <input type="file" id="file-picker" />
+    <div
+      class="investigate text-center container d-flex flex-column justify-content-center align-items-center gap-3"
+    >
+      <h1 class="display-1">Dog Detective</h1>
+      <h2 class="display-5 mb-5 fs-4">
+        A Machine Learning Dog Breed Image Classification App
+      </h2>
+      <div
+        class="container d-flex flex-column flex-lg-row justify-content-center gap-5"
+      >
+        <div
+          class="p-5 d-flex flex-column align-items-center justify-content-center investigate-box"
+        >
+          <div class="">
+            <img
+              class="img img-fluid investigate-container-img mb-5"
+              src="img/blank-dog.png"
+              id="selected-img"
+            />
+
+            <div
+              class="d-flex flex-row align-items-center justify-content-evenly img-file-btns"
+            >
+              <button
+                onClick="pickPhoto()"
+                class="btn btn-lg btn-primary"
+                style="white-space: nowrap"
+              >
+                Choose File
+              </button>
+              <button
+                onClick="takePic()"
+                class="btn btn-lg btn-secondary"
+                style="white-space: nowrap"
+              >
+                Take Picture
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="p-5 d-flex flex-column align-items-center justify-content-center investigate-box"
+          id="magnify-box"
+        >
+          <div id="info">
+            <div
+              class="spinner-border text-info loader"
+              style="height: 3rem; width: 3rem"
+              role="status"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
           <div
-            class="spinner-border text-info loader"
-            style="height: 3rem; width: 3rem"
-            role="status"
+            id="magnify-initial"
+            class="d-flex flex-column align-items-center justify-content-center"
           >
-            <span class="visually-hidden">Loading...</span>
+            <img
+              class="img img-fluid investigate-container-img mb-5"
+              src="img/magnify.png"
+              id="magnify-img"
+            />
+
+            <button
+              onClick="upload()"
+              class="btn btn-lg btn-success btn-full upload"
+              id="investigate-btn"
+              disabled
+            >
+              Investigate
+            </button>
           </div>
         </div>
       </div>
-      <input type="file" id="camera-picker" capture="user" accept="image/*" />
-      <input type="file" id="file-picker" />
-      <div class="form-group d-flex flex-column align-items-center">
-        <img class="img img-fluid" src="img/blank-dog.jpg" id="selected-img" />
-      </div>
-
-      <div
-        class="d-flex flex-row justify-content-center align-items-center img-file-btns"
-      >
-        <button onClick="pickPhoto()" class="btn btn-primary">
-          Choose File
-        </button>
-        <button onClick="takePic()" class="btn btn-secondary">
-          Take Picture
-        </button>
-      </div>
-      <br />
-      <button
-        onClick="upload(file)"
-        class="btn btn-lg btn-success btn-full upload"
-        disabled
-      >
-        Investigate
-      </button>
-      <br />
     </div>
   </div>
   <script

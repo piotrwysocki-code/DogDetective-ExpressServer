@@ -1,29 +1,4 @@
 let file;
-let breeds = {}
-
-$(() => {
-    $.ajax({
-        type : 'GET',
-        url : '/getBreeds',
-        success: (data) => {
-            breeds = data.breeds;
-            console.log(breeds);
-            Object.keys(breeds[0]).map((item, index)=>{
-                $('.breed-list').append(`
-                    <li class="list-group-item">
-                        <h1 class="display-5 fs-4">${breeds[0][item]}</h1>
-                    </li>
-                `);
-            })
-           
-        },
-        error:() => {   
-            console.log('error');
-        },
-        complete: () => {
-        }
-    })
-})
 
 $("#file-picker").on('change', () => {
     fileList = $("#file-picker").prop('files')
@@ -56,9 +31,11 @@ pickPhoto = () => {
     $("#file-picker").trigger('click')
 }
 
-upload = (file) => {
+upload = () => {
     let formData = new FormData()
     formData.append("file", file)
+
+    console.log(file);
 
     $.ajax({
         type : 'POST',
@@ -72,27 +49,30 @@ upload = (file) => {
         success: (data) => {
             $('.loader').fadeOut('fast')
             $('#info').fadeOut('fast')
+            //<img src="${URL.createObjectURL(file)}" id="resultImg"/>
 
             setTimeout(() => {
                 $("#info").append(`
                     <h3>Result</h3>
-                    <img src="${URL.createObjectURL(file)}" id="resultImg"/>
+                    <hr>
                 `)
                 for(i = 0; i < 3; i++){
                     $("#info").append(`
-                        <h4>${JSON.parse(data)[i].Breed}</h4>
+                        <h4>${JSON.parse(data)[i].Breed.replace(/_/g, " ").toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.substring(1)).join(' ')}</h4>
                         <div class="progress">
                             <br>
                             <div class="progress-bar bg-info" style="width:${(JSON.parse(data)[i].Confidence * 100).toFixed(2)}%">
-                                ${(JSON.parse(data)[i].Confidence * 100).toFixed(2)}
+                                ${(JSON.parse(data)[i].Confidence * 100).toFixed(2)}%
                             </div>
                         </div>
                     `)
                 }
     
-                $("#info").append(`<hr><button class='btn btn-warning' onClick='off()'>Done</button>`)
+                $("#info").append(`<hr><button class='btn btn-lg btn-warning' onClick='off()'>Done</button>`)
                 $('#info').fadeIn('slow')
             }, 250)
+
+            console.log(data);
         },
         complete: () => {
             console.log("complete")
@@ -101,25 +81,49 @@ upload = (file) => {
 }
 
 on = () => {
+
+    $("#magnify-img").hide()
+    $("#investigate-btn").hide()
+
     setTimeout(() => {
         $("#info").fadeIn('slow')
+        $("#info").addClass(`
+            d-flex flex-column justify-content-center align-items-center
+        `);
     }, 100)
 
     setTimeout(() => {
         $('.loader').fadeIn('slow')
     }, 200)
+
+
 }
 
 off = () => {
-    $('.loader').hide('fast')
+    $('.loader').hide()
 
-    $('#info').fadeOut('slow')
+    $('#info').hide()
+
+    $("#magnify-img").fadeIn()
+    $("#investigate-btn").fadeIn()
+
+    $("#info").removeClass(`
+        d-flex flex-column justify-content-center align-items-center
+    `);
 
     setTimeout(() => {
-        $("#overlay").css('display', 'none');
-    }, 150)
+        $('#info').html(`
+            <div
+                class="spinner-border text-info loader"
+                style="height: 3rem; width: 3rem"
+                role="status"
+            >
+                <span class="visually-hidden">Loading...</span>
+            </div>`
+        )
+    }, 200)
 
-    $('#info').html('<div class="loader"></div>')
+    
 }
 
 
