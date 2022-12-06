@@ -62,9 +62,12 @@ app.post('/upload', upload, async (req, res) =>{
     let filepath = req.file.path
     let name = req.file.filename
     let newPath = path.join(__dirname, `uploads/sm-${name}`)
-
     console.log(req.file);
-
+    /*saving the photo sent in the request to disk
+    * resizing the photo
+    * renaming the photo
+    * deleting the original sized photo
+    */
     await sharp(filepath).resize({ height: 331, width: 331 }).toFile(newPath)
     .then((info) => {
         console.log(info)
@@ -79,7 +82,10 @@ app.post('/upload', upload, async (req, res) =>{
     .catch((err) => {
         console.log("Error occured");
     })
-
+    /*reading the resized photo from disk
+    * append it to the form data
+    * pass the original filename as a parameter  
+    */
     try {
         let data = fs.readFileSync(path.resolve(__dirname, newPath));
         
@@ -89,7 +95,10 @@ app.post('/upload', upload, async (req, res) =>{
     } catch (err) {
         console.error(err);
     }
-
+    /*send a post request to the backend server
+     * with the resized image
+     * delete the image after
+     */
     let response = axios.post('http://99.79.108.211/api/classify', form, {
         headers: {
             'Content-Type': 'multipart/form-data'
