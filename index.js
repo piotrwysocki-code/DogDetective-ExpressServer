@@ -38,7 +38,7 @@ app.get('/breeds', (req, res)=> {
 app.get('/getBreeds', async (req, res) =>{
     if(breeds === -1){
         try{
-            let data = await axios.get("http://99.79.108.211/breeds").then((response)=>{
+            let data = await axios.get(process.env.URL).then((response)=>{
                 console.log(response.data);
                 breeds = {'breeds': [response.data]}
                 res.json(breeds);
@@ -99,7 +99,7 @@ app.post('/upload', upload, async (req, res) =>{
      * with the resized image
      * delete the image after
      */
-    let response = axios.post('http://99.79.108.211/api/classify', form, {
+    let response = axios.post(process.env.URL, form, {
         headers: {
             'Content-Type': 'multipart/form-data'
         }
